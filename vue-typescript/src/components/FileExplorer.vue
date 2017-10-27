@@ -36,78 +36,87 @@
 </template>
 
 <script lang="ts">
-  import axios from 'axios'
-  import Vue from "vue"
-  import {Component, Watch} from "vue-property-decorator"
-  import { Files } from '../types/model.ts'
-  @Component({
-    props: {
-     username: String,
-     repo: String
-    }
-  })
-  export default class FileExplorer extends Vue {
-    // props have to be declared
-    username: String
+import axios from "axios";
+import Vue from "vue";
+import { Component, Watch } from "vue-property-decorator";
+import { Files } from "../types/model.ts";
+@Component({
+  props: {
+    username: String,
     repo: String
+  }
+})
+export default class FileExplorer extends Vue {
+  // props have to be declared
+  username: String;
+  repo: String;
 
-    // initial data
-    path: string = '/'
-    files: Files[] = []
+  // initial data
+  path: string = "/";
+  files: Files[] = [];
 
-    // computed
-    get fullRepoUrl() {
-      return this.username + '/' + this.repo
-    }
-    get sortedFiles() {
-      return this.files.slice(0).sort(function(a, b) {
-        if (a.type !== b.type) {
-          if (a.type == 'dir') {
-            return -1
-          } else {
-            return 1
-          }
+  // computed
+  get fullRepoUrl(): string {
+    return this.username + "/" + this.repo;
+  }
+  get sortedFiles(): Files[] {
+    return this.files.slice(0).sort(function(a, b) {
+      if (a.type !== b.type) {
+        if (a.type == "dir") {
+          return -1;
         } else {
-          if (a.name < b.name) {
-            return -1
-          } else {
-            return 1
-          }
+          return 1;
         }
-      })
-    }
-
-    // lifecycle hook
-    created() {
-      if (this.username && this.repo) {
-        this.getFiles()
+      } else {
+        if (a.name < b.name) {
+          return -1;
+        } else {
+          return 1;
+        }
       }
-    }
+    });
+  }
 
-    // watch
-    @Watch('repo')
-    onRepoChanged(newVal: string, oldVal: string) {
-      this.path = '/'
-      this.getFiles()
-    }
-
-    // method
-    getFiles() {
-      axios.get('https://api.github.com/repos/' + this.fullRepoUrl + '/contents' + this.path)
-        .then(response => {
-          this.files = response.data
-      })
-    }
-    changePath(path:string) {
-      this.path = '/' + path
-      this.getFiles()
-    }
-    goBack() {
-      this.path = this.path.split('/').slice(0, -1).join('/')
-      if (this.path === '') {
-        this.path = '/'
-      }
-      this.getFiles()
+  // lifecycle hook
+  created() {
+    if (this.username && this.repo) {
+      this.getFiles();
     }
   }
+
+  // watch
+  @Watch("repo")
+  onRepoChanged(newVal: string, oldVal: string) {
+    this.path = "/";
+    this.getFiles();
+  }
+
+  // method
+  getFiles() {
+    axios
+      .get(
+        "https://api.github.com/repos/" +
+          this.fullRepoUrl +
+          "/contents" +
+          this.path
+      )
+      .then(response => {
+        this.files = response.data;
+      });
+  }
+  changePath(path: string) {
+    this.path = "/" + path;
+    this.getFiles();
+  }
+  goBack() {
+    this.path = this.path
+      .split("/")
+      .slice(0, -1)
+      .join("/");
+    if (this.path === "") {
+      this.path = "/";
+    }
+    this.getFiles();
+  }
+}
 </script>
