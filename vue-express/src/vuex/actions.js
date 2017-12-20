@@ -12,9 +12,11 @@ const actions = {
         password: obj.password,
         description: obj.description
       }).then(response => {
-
-      }).catch(response => {
-
+        commit('registe_success', response.data)
+        resolve()
+      }).catch((error) => {
+        commit('registe_failed', error.response.data)
+        reject()
       })
     })
   }

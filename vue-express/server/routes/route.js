@@ -20,7 +20,7 @@ router.post('/registe', function (req, res) {
     if (err) {
       res.status(500).send({
         status: 'error',
-        message: '服务器异常'
+        message: '网络异常，注册失败'
       })
       return false
     } else if (result) {
@@ -34,7 +34,7 @@ router.post('/registe', function (req, res) {
         if (err) {
           res.status(500).send({
             status: 'error',
-            message: '服务器异常'
+            message: '网络异常，注册失败'
           })
         }
         res.status(200).send({

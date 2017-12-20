@@ -9,11 +9,11 @@
             </Input>
           </FormItem>
           <FormItem  label="昵称：" prop="nickname">
-            <Input type="text" :maxlength="10" v-model="form.nickname" placeholder="昵称">
+            <Input type="text" :maxlength="10" v-model="form.nickname" placeholder="昵称，不能少于2个字">
             </Input>
           </FormItem>
           <FormItem  label="密码：" prop="password">
-            <Input type="password" v-model="form.password" placeholder="密码">
+            <Input type="password" v-model="form.password" placeholder="密码，不能少于6个字">
             </Input>
           </FormItem>
           <FormItem  label="简介：" prop="description">
@@ -86,13 +86,26 @@ export default {
     onSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.$store.dispatch({
-            type: "registe",
-            username: this.form.username,
-            nickname: this.form.nickname,
-            password: this.form.password,
-            description: this.form.description
-          });
+          this.$store
+            .dispatch({
+              type: "registe",
+              username: this.form.username,
+              nickname: this.form.nickname,
+              password: this.form.password,
+              description: this.form.description
+            })
+            .then(() => {
+              this.$Message.success({
+                content: this.$store.state.user.message,
+                onClose: this.$router.push({ path: `/login` })
+              });
+            })
+            .catch(() => {
+              this.$Message.error({
+                content: this.$store.state.user.message,
+                onClose: this.onReset("registeForm")
+              });
+            });
         }
       });
     },
