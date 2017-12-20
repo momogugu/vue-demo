@@ -9,7 +9,7 @@
             </Input>
           </FormItem>
           <FormItem  label="昵称：" prop="nickname">
-            <Input type="text" v-model="form.nickname" placeholder="昵称">
+            <Input type="text" :maxlength="10" v-model="form.nickname" placeholder="昵称">
             </Input>
           </FormItem>
           <FormItem  label="密码：" prop="password">
@@ -17,7 +17,7 @@
             </Input>
           </FormItem>
           <FormItem  label="简介：" prop="description">
-            <Input type="text" v-model="form.description" placeholder="简介">
+            <Input type="text" :maxlength="50" v-model="form.description" placeholder="简介">
             </Input>
           </FormItem>
           <FormItem>
@@ -53,22 +53,32 @@ export default {
             trigger: "blur"
           }
         ],
-        nickname: {
-          required: true,
-          message: "昵称不能为空",
-          trigger: "blur"
-        },
-        password: {
-          required: true,
-          message: "密码不能为空",
-          trigger: "blur"
-        },
-        description: {
-          type: "string",
-          max: 50,
-          message: "简介不能超过50个字",
-          trigger: "blur"
-        }
+        nickname: [
+          {
+            required: true,
+            message: "昵称不能为空",
+            trigger: "blur"
+          },
+          {
+            type: "string",
+            min: 2,
+            message: "昵称不能少于2个字",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "密码不能为空",
+            trigger: "blur"
+          },
+          {
+            type: "string",
+            min: 6,
+            message: "密码强度过低",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
