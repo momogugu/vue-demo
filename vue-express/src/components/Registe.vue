@@ -5,20 +5,16 @@
       <div class="form">
         <Form ref="registeForm" :label-width="80" method="post" :model="form" :rules="formRule">
           <FormItem  label="用户名：" prop="username">
-            <Input type="text" :autofocus="true" v-model="form.username" placeholder="注册邮箱">
-            </Input>
+            <Input type="text" :autofocus="true" v-model="form.username" placeholder="注册邮箱" />
           </FormItem>
           <FormItem  label="昵称：" prop="nickname">
-            <Input type="text" :maxlength="10" v-model="form.nickname" placeholder="昵称，不能少于2个字">
-            </Input>
+            <Input type="text" :maxlength="10" v-model="form.nickname" placeholder="昵称，不能少于2个字" />
           </FormItem>
           <FormItem  label="密码：" prop="password">
-            <Input type="password" v-model="form.password" placeholder="密码，不能少于6个字">
-            </Input>
+            <Input type="password" v-model="form.password" placeholder="密码，不能少于6个字" />
           </FormItem>
           <FormItem  label="简介：" prop="description">
-            <Input type="text" :maxlength="50" v-model="form.description" placeholder="简介">
-            </Input>
+            <Input type="text" :maxlength="50" v-model="form.description" placeholder="简介" />
           </FormItem>
           <FormItem>
             <Button type="primary" style="width:100px;" @click.prevent="onSubmit('registeForm')">注册</Button>
@@ -103,7 +99,7 @@ export default {
             .catch(() => {
               this.$Message.error({
                 content: this.$store.state.user.message,
-                onClose: this.onReset("registeForm")
+                onClose: this.onReset(name)
               });
             });
         }

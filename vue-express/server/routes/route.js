@@ -46,4 +46,42 @@ router.post('/registe', function (req, res) {
   })
 })
 
+// 用户登录
+router.post('/login', function (req, res) {
+  const body = req.body
+  const {
+    username,
+    password
+  } = body
+  User.getAuth(username, (err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，登录失败'
+      })
+      return false
+    } else {
+      if (!result) {
+        res.status(401).send({
+          status: 'error',
+          message: '用户名不存在'
+        })
+        return false
+      }
+      if (result.password !== password) {
+        res.status(401).send({
+          status: 'error',
+          message: '密码错误'
+        })
+        return false
+      }
+      res.status(200).send({
+        status: 'success',
+        message: '登录成功'
+      })
+      return false
+    }
+  })
+})
+
 export default router
