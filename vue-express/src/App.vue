@@ -1,7 +1,10 @@
 <template>
   <div id="app" class="layout">
     <div class="layout-ceiling">
-      <div class="layout-ceiling-main">
+      <div class="layout-ceiling-main" v-if="user.logined">
+        <p>{{user.nickname}}</p>
+      </div>
+      <div class="layout-ceiling-main" v-else>
         <a href="#" @click.prevent="$router.push({ path: `/registe` })">Sign up</a> |
         <a href="#" @click.prevent="$router.push({ path: `/login` })">Sign in</a>
       </div>
@@ -17,7 +20,13 @@
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  data() {
+    return {
+      user: this.$store.state.user
+    };
+  },
+  created() {}
 };
 </script>
 
@@ -48,5 +57,9 @@ export default {
 }
 .layout-ceiling-main a {
   color: #c7cace;
+}
+.layout-ceiling-main p {
+  color: #c7cace;
+  float: right;
 }
 </style>

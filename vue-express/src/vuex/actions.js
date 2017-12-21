@@ -36,6 +36,19 @@ const actions = {
         reject()
       })
     })
+  },
+  getUserInfo({
+    commit,
+    state
+  }, obj) {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/getUserInfo?username=' + obj.username).then(response => {
+        commit('getUserInfo_success', response.data)
+        resolve()
+      }).catch(error => {
+        commit('getUserInfo_failed', error.response.data)
+      })
+    })
   }
 }
 

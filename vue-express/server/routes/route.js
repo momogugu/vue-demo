@@ -11,7 +11,7 @@ router.get('/cart/:username', function (req, res) {
 })
 
 // 用户注册
-router.post('/registe', function (req, res) {
+router.post('/registe', (req, res) => {
   const body = req.body
   const {
     username
@@ -47,7 +47,7 @@ router.post('/registe', function (req, res) {
 })
 
 // 用户登录
-router.post('/login', function (req, res) {
+router.post('/login', (req, res) => {
   const body = req.body
   const {
     username,
@@ -80,6 +80,26 @@ router.post('/login', function (req, res) {
         message: '登录成功'
       })
       return false
+    }
+  })
+})
+
+// 获取用户信息
+router.get('/getUserInfo', (req, res) => {
+  const query = req.query
+  User.getInfo(query, (err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，获取用户信息失败'
+      })
+      return false
+    } else if (result) {
+      res.send({
+        status: 'success',
+        message: '已获取用户信息',
+        userinfo: result
+      })
     }
   })
 })

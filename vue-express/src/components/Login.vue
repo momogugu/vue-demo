@@ -60,9 +60,16 @@ export default {
             })
             .then(() => {
               this.$Message.success({
-                content: this.$store.state.user.message,
-                onClose: this.$router.push({ path: `/` })
+                content: this.$store.state.user.message
               });
+              this.$store
+                .dispatch({
+                  type: "getUserInfo",
+                  username: this.form.username
+                })
+                .then(() => {
+                  this.$router.push({ path: `/` });
+                });
             })
             .catch(() => {
               this.$Message.error(this.$store.state.user.message);
