@@ -6,3 +6,5 @@ const user = {
   password: '',
   description: ''
 }
+
+export default user

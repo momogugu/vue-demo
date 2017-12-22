@@ -2,7 +2,14 @@
   <div id="app" class="layout">
     <div class="layout-ceiling">
       <div class="layout-ceiling-main" v-if="user.logined">
-        <p>{{user.nickname}}</p>
+        <Dropdown placement="bottom-end" @on-click="handleClick">
+          <a href="#">{{user.nickname}}
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem name="logout">退出登录</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
       <div class="layout-ceiling-main" v-else>
         <a href="#" @click.prevent="$router.push({ path: `/registe` })">Sign up</a> |
@@ -21,12 +28,46 @@
 <script>
 export default {
   name: "app",
-  data() {
-    return {
-      user: this.$store.state.user
-    };
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
   },
-  created() {}
+  created() {
+    this.$store.dispatch({
+      type: "valid",
+      token: this.getCookie("jwt")
+    });
+  },
+  methods: {
+    getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(";");
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+      }
+      return "";
+    },
+    handleClick(name) {
+      if (name === "logout") {
+        this.$store
+          .dispatch({
+            type: name
+          })
+          .then(() => {
+            this.$Message.success({
+              content: this.$store.state.user.message
+            });
+          })
+          .catch(() => {
+            this.$Message.error({
+              content: this.$store.state.user.message
+            });
+          });
+      }
+    }
+  }
 };
 </script>
 

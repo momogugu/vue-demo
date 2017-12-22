@@ -15,9 +15,9 @@ Vue.use(iView)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {
     App
-  },
-  store
+  }
 })

@@ -1,4 +1,8 @@
 import express from 'express'
+import moment from 'moment';
+import webtoken, {
+  decode
+} from 'jsonwebtoken';
 import db from '../models/index'
 
 const router = express.Router()
@@ -75,9 +79,29 @@ router.post('/login', (req, res) => {
         })
         return false
       }
-      res.status(200).send({
-        status: 'success',
-        message: '登录成功'
+      User.getInfo({
+        username: username
+      }, (err, result) => {
+        if (result) {
+          let userInfo = result
+          let playload = {
+            user: userInfo
+          };
+          let expires = moment().add(7, 'days').valueOf();
+          let token = webtoken.sign(playload, 'keys', {
+            issuer: userInfo._id.toString(),
+            expiresIn: expires
+          });
+          res.cookie('jwt', token, {
+            maxAge: 1 * 24 * 60 * 60 * 1000
+          })
+          res.status(200).send({
+            status: 'success',
+            message: '登录成功',
+            token,
+            userinfo: userInfo
+          })
+        }
       })
       return false
     }
@@ -101,6 +125,53 @@ router.get('/getUserInfo', (req, res) => {
         userinfo: result
       })
     }
+  })
+})
+
+// 验证用户信息
+router.get('/valid', (req, res) => {
+  let token = req.body.token || req.query.token || req.headers['x-access-token']
+  if (token) {
+    webtoken.verify(token, 'keys', (err, decoded) => {
+      if (err) {
+        res.status(403).send({
+          status: 'error',
+          message: 'token信息错误，请重新登录'
+        })
+        return false
+      } else {
+        if (decoded.exp <= Date.now()) {
+          res.status(200).send({
+            status: 'outdate',
+            message: '登录状态已过期，请重新登录'
+          })
+          return false
+        } else {
+          res.status(200).send({
+            status: 'success',
+            message: '登录成功',
+            token,
+            userinfo: decoded.user
+          })
+        }
+      }
+    })
+  } else {
+    res.status(403).send({
+      status: 'error',
+      message: '用户未登录'
+    })
+  }
+})
+
+// 用户退出登录
+router.post('/logout', (req, res) => {
+  res.cookie('jwt', '', {
+    maxAge: 1
+  })
+  res.status(200).send({
+    status: 'success',
+    message: '用户已退出登录'
   })
 })
 
