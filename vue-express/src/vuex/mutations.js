@@ -3,7 +3,7 @@ const mutations = {
     state.user.message = obj.message
   },
   ['registe_failed'](state, obj) {
-    state.user.message = obj.message
+    state.user.message = obj.message || '网络错误，请重试'
   },
   ['login_success'](state, obj) {
     state.user.message = obj.message
@@ -14,7 +14,7 @@ const mutations = {
     state.user.description = obj.userinfo.description
   },
   ['login_failed'](state, obj) {
-    state.user.message = obj.message
+    state.user.message = obj.message || '网络错误，请重试'
     state.user.logined = false
   },
   ['logout_success'](state, obj) {
@@ -37,7 +37,7 @@ const mutations = {
     state.user.description = obj.userinfo.description
   },
   ['getUserInfo_failed'](state, obj) {
-    state.user.message = obj.message
+    state.user.message = obj.message || '网络错误，请重试'
   },
 }
 
