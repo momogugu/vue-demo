@@ -54,7 +54,6 @@ const actions = {
         } else {
           commit('login_failed', data)
         }
-
       }).catch(error => {
         commit('login_failed', error.response.data)
       })

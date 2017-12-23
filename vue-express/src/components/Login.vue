@@ -16,6 +16,7 @@
         </FormItem>
       </Form>
     </div>
+    <p>哎？还没有账号？赶紧来<a href="#" @click.prevent="$router.push({ path: `/registe` })">注册吧:)</a></p>
   </div>
 </template>
 <script>
@@ -72,6 +73,11 @@ export default {
     },
     onReset(name) {
       this.$refs[name].resetFields();
+    }
+  },
+  beforeMount() {
+    if (this.$store.state.user.logined) {
+      this.$router.push({ path: `/` });
     }
   }
 };

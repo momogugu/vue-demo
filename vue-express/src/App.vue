@@ -34,10 +34,17 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch({
-      type: "valid",
-      token: this.getCookie("jwt")
-    });
+    this.$store
+      .dispatch({
+        type: "valid",
+        token: this.getCookie("jwt")
+      })
+      .then(() => {
+        let currentRoute = this.$router.currentRoute.name;
+        if (currentRoute === "Login") {
+          this.$router.push({ path: `/` });
+        }
+      });
   },
   methods: {
     getCookie(cname) {
