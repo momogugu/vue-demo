@@ -7,7 +7,8 @@ import db from '../models/index'
 
 const router = express.Router()
 const {
-  User
+  User,
+  Goods
 } = db
 
 router.get('/cart/:username', function (req, res) {
@@ -172,6 +173,34 @@ router.post('/logout', (req, res) => {
   res.status(200).send({
     status: 'success',
     message: '用户已退出登录'
+  })
+})
+
+// 获取所有商品信息
+router.get('/goods', (req, res) => {
+  Goods.getAll((err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，获取商品信息失败'
+      })
+      return false
+    } else {
+      if (result) {
+        res.status(200).send({
+          status: 'success',
+          message: '已获取商品信息',
+          rows: result,
+          total: result.length
+        })
+        return false
+      }
+      res.status(200).send({
+        status: 'zero',
+        message: '暂无商品信息'
+      })
+      return false
+    }
   })
 })
 

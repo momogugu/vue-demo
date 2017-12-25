@@ -12,7 +12,10 @@ import mongoose from 'mongoose'
  * brand_pic 商品图片
  */
 const GoodsSchema = new mongoose.Schema({
-  brand_id: Number,
+  brand_id: {
+    type: Number,
+    unique: true
+  },
   brand_class: String,
   brand_className: String,
   brand_status: String,
