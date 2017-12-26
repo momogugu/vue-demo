@@ -17,6 +17,13 @@ const Cart = {
     return CartModel.updateOne(condition, update, (error, docs) => {
       callback(error, docs)
     })
+  },
+  getCart(query, callback) {
+    return CartModel.find(query, {
+      _id: 0
+    }, (error, docs) => {
+      callback(error, docs)
+    })
   }
 }
 

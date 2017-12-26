@@ -8,6 +8,7 @@
             <Icon type="arrow-down-b"></Icon>
           </a>
           <DropdownMenu slot="list">
+            <DropdownItem name="cart">我的购物车</DropdownItem>
             <DropdownItem name="logout">退出登录</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -45,6 +46,12 @@ export default {
         if (currentRoute === "Login") {
           this.$router.push({ path: `/` });
         }
+      })
+      .catch(() => {
+        let currentRoute = this.$router.currentRoute.name;
+        if (currentRoute === "Cart") {
+          this.$router.push({ path: `/login` });
+        }
       });
   },
   methods: {
@@ -73,6 +80,8 @@ export default {
               content: this.$store.state.user.message
             });
           });
+      } else if (name === "cart") {
+        this.$router.push({ path: `/cart` });
       }
     }
   }

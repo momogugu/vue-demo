@@ -296,4 +296,23 @@ router.post('/addCart', (req, res) => {
   })
 })
 
+// 获取某个用户的购物车信息
+router.get('/getCart', (req, res) => {
+  const query = req.query
+  Cart.getCart(query, (err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，获取购物车信息失败'
+      })
+    } else {
+      res.status(200).send({
+        status: 'success',
+        message: '已获取购物车信息',
+        rows: result
+      })
+    }
+  })
+})
+
 export default router

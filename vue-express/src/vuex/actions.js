@@ -53,9 +53,11 @@ const actions = {
           resolve()
         } else {
           commit('login_failed', data)
+          reject()
         }
       }).catch(error => {
         commit('login_failed', error.response.data)
+        reject()
       })
     })
   },
@@ -131,6 +133,18 @@ const actions = {
         resolve()
       }).catch((error) => {
         commit('addCart_failed', error.response.data)
+        reject()
+      })
+    })
+  },
+  getMyCart({
+    commit,
+    state
+  }, obj) {
+    return new Promise((resolve, reject) => {
+      axios.get('api/getCart?username=' + obj.username).then((response) => {
+        resolve()
+      }).catch((error) => {
         reject()
       })
     })
