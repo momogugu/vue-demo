@@ -98,6 +98,20 @@ const actions = {
         reject()
       })
     })
+  },
+  getDetail({
+    commit,
+    state
+  }, obj) {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/goods/' + obj.brand_id).then((response) => {
+        commit('getDetail_success', response.data)
+        resolve()
+      }).catch((error) => {
+        commit('getDetail_failed', error.response.data)
+        reject()
+      })
+    })
   }
 }
 

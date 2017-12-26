@@ -46,7 +46,22 @@ const mutations = {
     state.goods.status = obj.status
   },
   ['getAllGoods_failed'](state, obj) {
-    state.user.message = obj.message || '网络错误，请重试'
+    state.goods.message = obj.message || '网络错误，请重试'
+  },
+  ['getDetail_success'](state, obj) {
+    state.goods.message = obj.message
+    state.goods.status = obj.status
+    state.goods.selected.brand_id = obj.result.brand_id
+    state.goods.selected.brand_class = obj.result.brand_class
+    state.goods.selected.brand_className = obj.result.brand_className
+    state.goods.selected.brand_status = obj.result.brand_status
+    state.goods.selected.brand_name = obj.result.brand_name
+    state.goods.selected.brand_price = obj.result.brand_price
+    state.goods.selected.brand_desc = obj.result.brand_desc
+    state.goods.selected.brand_pic = obj.result.brand_pic
+  },
+  ['getDetail_failed'](state, obj) {
+    state.goods.message = obj.message || '网络错误，请重试'
   },
 }
 

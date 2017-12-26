@@ -206,4 +206,32 @@ router.get('/goods', (req, res) => {
   })
 })
 
+// 获取某商品信息
+router.get('/goods/:id', (req, res) => {
+  const query = req.query
+  Goods.getDetail(query, (err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，获取商品信息失败'
+      })
+      return false
+    } else {
+      if (result) {
+        res.status(200).send({
+          status: 'success',
+          message: '已获取商品信息',
+          result
+        })
+        return false
+      }
+      res.status(200).send({
+        status: 'none',
+        message: '未找到该商品'
+      })
+      return false
+    }
+  })
+})
+
 export default router

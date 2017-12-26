@@ -7,6 +7,13 @@ const Goods = {
     }, (error, docs) => {
       callback(error, docs)
     })
+  },
+  getDetail(query, callback) {
+    return GoodsModel.findOne(query, {
+      _id: 0
+    }, (error, docs) => {
+      callback(error, docs)
+    })
   }
 }
 

@@ -2,7 +2,8 @@ const goods = {
   rows: [],
   total: 0,
   status: '',
-  message: ''
+  message: '',
+  selected: {}
 }
 
 export default goods
