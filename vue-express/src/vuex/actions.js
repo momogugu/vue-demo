@@ -84,6 +84,20 @@ const actions = {
         commit('getUserInfo_failed', error.response.data)
       })
     })
+  },
+  getAllGoods({
+    commit,
+    state
+  }, obj) {
+    return new Promise((resolve, reject) => {
+      axios.get('/api/goods').then((response) => {
+        commit('getAllGoods_success', response.data)
+        resolve()
+      }).catch((error) => {
+        commit('getAllGoods_failed', error.response.data)
+        reject()
+      })
+    })
   }
 }
 

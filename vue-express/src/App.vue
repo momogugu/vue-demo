@@ -2,6 +2,7 @@
   <div id="app" class="layout">
     <div class="layout-ceiling">
       <div class="layout-ceiling-main" v-if="user.logined">
+        <Avatar icon="person" />
         <Dropdown placement="bottom-end" @on-click="handleClick">
           <a href="#">{{user.nickname}}
             <Icon type="arrow-down-b"></Icon>

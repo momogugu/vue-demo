@@ -197,7 +197,9 @@ router.get('/goods', (req, res) => {
       }
       res.status(200).send({
         status: 'zero',
-        message: '暂无商品信息'
+        message: '暂无商品信息',
+        rows: [],
+        total: 0
       })
       return false
     }

@@ -1,7 +1,9 @@
 import user from './user'
+import goods from './goods'
 
 const state = {
-  user
+  user,
+  goods
 }
 
 export default state

@@ -39,6 +39,15 @@ const mutations = {
   ['getUserInfo_failed'](state, obj) {
     state.user.message = obj.message || '网络错误，请重试'
   },
+  ['getAllGoods_success'](state, obj) {
+    state.goods.message = obj.message
+    state.goods.rows = [...obj.rows]
+    state.goods.total = obj.total
+    state.goods.status = obj.status
+  },
+  ['getAllGoods_failed'](state, obj) {
+    state.user.message = obj.message || '网络错误，请重试'
+  },
 }
 
 export default mutations
