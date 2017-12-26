@@ -63,6 +63,12 @@ const mutations = {
   ['getDetail_failed'](state, obj) {
     state.goods.message = obj.message || '网络错误，请重试'
   },
+  ['addCart_success'](state, obj) {
+    state.cart.message = obj.message
+  },
+  ['addCart_failed'](state, obj) {
+    state.cart.message = obj.message || '网络错误，请重试'
+  },
 }
 
 export default mutations

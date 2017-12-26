@@ -8,7 +8,8 @@ import db from '../models/index'
 const router = express.Router()
 const {
   User,
-  Goods
+  Goods,
+  Cart
 } = db
 
 router.get('/cart/:username', function (req, res) {
@@ -230,6 +231,67 @@ router.get('/goods/:id', (req, res) => {
         message: '未找到该商品'
       })
       return false
+    }
+  })
+})
+
+// 加入购物车
+router.post('/addCart', (req, res) => {
+  const body = req.body
+  const {
+    username,
+    brand_id
+  } = body;
+  const query = {
+    username: username,
+    brand_id: brand_id
+  }
+  Cart.getOne(query, (err, result) => {
+    if (err) {
+      res.status(500).send({
+        status: 'error',
+        message: '网络异常，加入购物车失败'
+      })
+      return false
+    } else {
+      if (!result) {
+        body.cart_num = 1
+        body.cart_isSelect = false
+        Cart.addCart(body, (error, docs) => {
+          if (err) {
+            res.status(500).send({
+              status: 'error',
+              message: '网络异常，加入购物车失败'
+            })
+            return false
+          }
+          res.status(200).send({
+            status: 'success',
+            message: '加入购物车成功'
+          })
+          return false
+        })
+      } else {
+        let num = result.cart_num + 1
+        let update = {
+          $set: {
+            cart_num: num
+          }
+        }
+        Cart.updateOne(query, update, (error, docs) => {
+          if (err) {
+            res.status(500).send({
+              status: 'error',
+              message: '网络异常，加入购物车失败'
+            })
+          }
+          res.status(200).send({
+            status: 'success',
+            message: '加入购物车成功'
+          })
+          return false
+        })
+      }
     }
   })
 })

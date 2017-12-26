@@ -51,7 +51,22 @@ export default {
   },
   methods: {
     addToCart() {
-      console.log(this.detail);
+      if (!this.$store.state.user.logined) {
+        this.$router.push({ path: `/login` });
+        return false;
+      }
+      this.$store
+        .dispatch({
+          type: "addToCart",
+          detail: this.detail,
+          username: this.$store.state.user.username
+        })
+        .then(() => {
+          this.$Message.success(this.$store.state.cart.message);
+        })
+        .catch(() => {
+          this.$Message.error(this.$store.state.cart.message);
+        });
     }
   }
 };

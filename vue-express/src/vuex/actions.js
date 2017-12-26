@@ -112,6 +112,28 @@ const actions = {
         reject()
       })
     })
+  },
+  addToCart({
+    commit,
+    state
+  }, obj) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/addCart', {
+        username: obj.username,
+        brand_id: obj.detail.brand_id,
+        brand_name: obj.detail.brand_name,
+        brand_class: obj.detail.brand_class,
+        brand_price: obj.detail.brand_price,
+        brand_desc: obj.detail.brand_id,
+        brand_pic: obj.detail.brand_id,
+      }).then((response) => {
+        commit('addCart_success', response.data)
+        resolve()
+      }).catch((error) => {
+        commit('addCart_failed', error.response.data)
+        reject()
+      })
+    })
   }
 }
 
