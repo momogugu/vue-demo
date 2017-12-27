@@ -209,7 +209,10 @@ router.get('/goods', (req, res) => {
 
 // 获取某商品信息
 router.get('/goods/:id', (req, res) => {
-  const query = req.query
+  const id = parseInt(req.params.id)
+  const query = {
+    brand_id: id
+  }
   Goods.getDetail(query, (err, result) => {
     if (err) {
       res.status(500).send({
